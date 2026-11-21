@@ -1,0 +1,6 @@
+export * from './descriptiva'
+export * from './distribuciones'
+export * from './inferencia'
+export * from './matriz'
+export * from './regresion'
+export * from './logistica'
