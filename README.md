@@ -53,3 +53,7 @@ Otros comandos: `npm test` (pruebas de los motores de cálculo) y `npm run build
 | Ctrl Z, Ctrl Y | Deshacer y rehacer |
 | Ctrl K | Buscar herramienta o ejercicio |
 | Ctrl S, Ctrl O | Guardar y abrir el trabajo como archivo |
+
+## Licencia
+
+[MIT](LICENSE). Puedes usarlo, modificarlo y redistribuirlo conservando el aviso de autoría.
