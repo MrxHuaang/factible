@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     // Los únicos trozos que pasan de 500 kB son three (solo la portada) y exceljs (solo al exportar
     // a Excel); ninguno se descarga al abrir la mesa. Si aparece otro así de grande, el aviso vuelve.
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1100,
     rolldownOptions: {
       output: {
         codeSplitting: {

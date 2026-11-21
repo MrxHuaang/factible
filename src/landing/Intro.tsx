@@ -22,7 +22,7 @@ const CELDA = 92
  * Intro de la portada: se dibuja el diagrama de flujo de caja de un proyecto, el VPN sube
  * flujo a flujo hasta volverse positivo y la pantalla se deshace celda por celda.
  */
-export function Intro({ modeloListo, alRevelar, alTerminar }: { modeloListo: () => boolean; alRevelar: () => void; alTerminar: () => void }) {
+export function Intro({ modeloListo, alRevelar, alTerminar }: { modeloListo: () => boolean; alRevelar: (conFoco: boolean) => void; alTerminar: () => void }) {
   const [paso, setPaso] = useState(-1)
   const [valor, setValor] = useState(0)
   const [saliendo, setSaliendo] = useState(false)
@@ -32,8 +32,10 @@ export function Intro({ modeloListo, alRevelar, alTerminar }: { modeloListo: () 
   const salir = () => {
     if (hecho.current) return
     hecho.current = true
+    // Al salir, la intro queda inerte; se recuerda si el foco estaba en ella para llevarlo a la portada.
+    const conFoco = !!document.activeElement?.closest('.intro')
     setSaliendo(true)
-    setTimeout(alRevelar, 380)
+    setTimeout(() => alRevelar(conFoco), 380)
     setTimeout(alTerminar, 520 + (dims.cols + dims.filas) * 26 + 520)
   }
 
@@ -82,7 +84,7 @@ export function Intro({ modeloListo, alRevelar, alTerminar }: { modeloListo: () 
   const curva = ACUMULADO.map((v, t) => `${t ? 'L' : 'M'}${X(t)},${(EJE - (v / 100000) * 92).toFixed(1)}`).join(' ')
 
   return (
-    <div className={'intro' + (saliendo ? ' saliendo' : '')} onClick={salir}>
+    <div className={'intro' + (saliendo ? ' saliendo' : '')} inert={saliendo} onClick={salir}>
       <div className="intro-celdas" style={{ gridTemplateColumns: `repeat(${dims.cols}, 1fr)`, gridTemplateRows: `repeat(${dims.filas}, 1fr)` }} aria-hidden>
         {Array.from({ length: dims.cols * dims.filas }, (_, k) => (
           <i key={k} style={{ animationDelay: `${((k % dims.cols) + Math.floor(k / dims.cols)) * 26}ms` }} />
@@ -90,7 +92,7 @@ export function Intro({ modeloListo, alRevelar, alTerminar }: { modeloListo: () 
       </div>
       <div className="intro-escena" role="status" aria-label="Cargando Factible">
         <p className="intro-vpn" aria-hidden>
-          <span>VPN al 12 %</span>
+          <span>VPN al 12{' '}%</span>
           <strong className={valor < 0 ? 'neg' : ''}>{paso < 0 ? '$0' : dinero(Math.round(valor / 10) * 10, 0)}</strong>
           <em className={final && valor > 0 ? 'visible' : ''}>
             <CheckCircle size={16} weight="fill" />

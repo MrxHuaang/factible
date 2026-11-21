@@ -56,6 +56,11 @@
   width: min(980px, 92vw);
 }
 
+/* Mientras se deshace ya no recibe clics: la portada de abajo queda disponible. */
+.intro.saliendo {
+  pointer-events: none;
+}
+
 .intro.saliendo .intro-escena,
 .intro.saliendo .intro-saltar {
   opacity: 0;
@@ -413,7 +418,11 @@
   margin-top: 8px;
 }
 
+/* El relleno compensado con margen da 24 px de alto al enlace sin mover el renglón. */
 .pie a {
+  display: inline-block;
+  margin-block: -2px;
+  padding-block: 2px;
   color: var(--hoja);
   text-decoration: none;
 }

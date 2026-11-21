@@ -42,7 +42,9 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
   const [intro, setIntro] = useState(!quieta)
   const [visible, setVisible] = useState(true)
   const cargado = useRef(false)
-  const hero = useRef<HTMLElement>(null)
+  const hero = useRef<HTMLDivElement>(null)
+  const botonEntrar = useRef<HTMLButtonElement>(null)
+  const focoEnIntro = useRef(false)
   const alCargar = useCallback(() => {
     cargado.current = true
   }, [])
@@ -70,6 +72,8 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
   // Con la portada ya a la vista se trae el código de la mesa, para que Entrar sea inmediato.
   useEffect(() => {
     if (lista) void import('../App')
+    // Quien saltó la intro con el teclado sigue en la acción principal, no al inicio del documento.
+    if (lista && focoEnIntro.current) botonEntrar.current?.focus({ preventScroll: true })
   }, [lista])
   const [palabra, setPalabra] = useState(0)
   const palabras = useRef<HTMLSpanElement>(null)
@@ -94,9 +98,18 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
 
   return (
     <div className="landing">
-      {intro && <Intro modeloListo={() => cargado.current} alRevelar={() => setFase('lista')} alTerminar={() => setIntro(false)} />}
+      {intro && (
+        <Intro
+          modeloListo={() => cargado.current}
+          alRevelar={(conFoco) => {
+            focoEnIntro.current = conFoco
+            setFase('lista')
+          }}
+          alTerminar={() => setIntro(false)}
+        />
+      )}
 
-      <section ref={hero} className={'portada' + (lista ? ' lista' : '')} aria-labelledby="portada-titulo">
+      <div ref={hero} className={'portada' + (lista ? ' lista' : '')}>
         <div className="portada-rejilla" aria-hidden />
         <div className="portada-disco" aria-hidden />
         <svg className="portada-anillo" viewBox="0 0 1000 1000" aria-hidden>
@@ -116,9 +129,10 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
           <Logotipo tam={30} animada={lista} />
           <a className="portada-enlace" href={REPO} target="_blank" rel="noreferrer">
             Código en GitHub
+            <span className="oculto"> (se abre en otra pestaña)</span>
           </a>
         </header>
-        <div className="portada-centro">
+        <main className="portada-centro">
           <h1 id="portada-titulo" aria-label="¿Tu proyecto es rentable?">
             <span className="linea" style={{ ['--i' as string]: 0 }} aria-hidden>
               ¿Tu proyecto
@@ -138,14 +152,14 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
           <p className="portada-bajada linea" style={{ ['--i' as string]: 2 }}>
             Flujo de caja, VPN, TIR y estadística en una hoja de trabajo hecha para el curso.
           </p>
-          <button type="button" className="entrar" style={{ ['--i' as string]: 3 }} onClick={() => entrar()}>
+          <button ref={botonEntrar} type="button" className="entrar" style={{ ['--i' as string]: 3 }} onClick={() => entrar()}>
             <span>Entrar</span>
             <ArrowRight size={22} weight="bold" aria-hidden />
           </button>
-        </div>
-      </section>
+        </main>
+      </div>
 
-      <footer className="pie">
+      <footer className="pie" inert={!lista}>
         <div className="pie-columnas">
           <div className="pie-intro">
             <Logotipo tam={30} invertida />
@@ -177,6 +191,7 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
               <li>
                 <a href={REPO} target="_blank" rel="noreferrer">
                   El código, en GitHub
+                  <span className="oculto"> (se abre en otra pestaña)</span>
                 </a>
               </li>
               <li>
@@ -186,7 +201,7 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
             </ul>
           </nav>
         </div>
-        <p className="pie-marca" aria-hidden>
+        <p className="pie-marca" aria-hidden translate="no">
           {MARCA}
         </p>
         <p className="pie-linea">© 2026 {MARCA}. Hecho para Formulación y Evaluación de Proyectos.</p>

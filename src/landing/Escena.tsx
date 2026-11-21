@@ -36,7 +36,8 @@ function Flotante({ objeto, pieza, k, activa, quieta }: { objeto: Object3D; piez
     if (!n || !base) return
     const t = estado.clock.elapsedTime
     if (activa && inicio.current === null) inicio.current = t
-    const listo = activa && inicio.current !== null && t - inicio.current > k * 0.11
+    // Sin movimiento solo se pinta bajo demanda: las piezas van completas desde el primer cuadro.
+    const listo = activa && (quieta || (inicio.current !== null && t - inicio.current > k * 0.11))
     const meta = listo ? escala : 0
     const s = quieta ? meta : MathUtils.damp(n.scale.x, meta, 5, dt)
     n.scale.setScalar(s)

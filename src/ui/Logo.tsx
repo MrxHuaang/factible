@@ -19,7 +19,7 @@ export function Logotipo({ tam = 28, animada, invertida }: { tam?: number; anima
   return (
     <span className="logotipo" style={{ fontSize: tam * 0.68 }}>
       <Marca tam={tam} animada={animada} invertida={invertida} />
-      <span className="logotipo-nombre">
+      <span className="logotipo-nombre" translate="no">
         factible<i aria-hidden />
       </span>
     </span>
