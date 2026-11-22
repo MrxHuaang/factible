@@ -56,4 +56,4 @@ Otros comandos: `npm test` (pruebas de los motores de cálculo) y `npm run build
 
 ## Licencia
 
-Todos los derechos reservados. No se permite copiar, modificar ni redistribuir el código o el diseño sin permiso escrito del autor. Ver [LICENSE](LICENSE).
+[MIT](LICENSE). Puedes usarlo, modificarlo y redistribuirlo conservando el aviso de autoría.

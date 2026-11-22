@@ -7,6 +7,7 @@ import './landing.css'
 const Escena = lazy(() => import('./Escena'))
 
 export const MARCA = 'Factible'
+export const REPO = 'https://github.com/MrxHuaang/factible'
 
 const FINANZAS: [string, string][] = [
   ['tasas', 'Tasas de interés'],
@@ -126,6 +127,10 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
         </Suspense>
         <header className="portada-barra">
           <Logotipo tam={30} animada={lista} />
+          <a className="portada-enlace" href={REPO} target="_blank" rel="noreferrer">
+            Código en GitHub
+            <span className="oculto"> (se abre en otra pestaña)</span>
+          </a>
         </header>
         <main className="portada-centro">
           <h1 id="portada-titulo" aria-label="¿Tu proyecto es rentable?">
@@ -184,6 +189,12 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
             <h2>Proyecto</h2>
             <ul>
               <li>
+                <a href={REPO} target="_blank" rel="noreferrer">
+                  El código, en GitHub
+                  <span className="oculto"> (se abre en otra pestaña)</span>
+                </a>
+              </li>
+              <li>
                 <a href="#/informe">Tu informe</a>
               </li>
               <li>Todo se calcula en tu navegador</li>
@@ -193,7 +204,7 @@ export default function Landing({ entrar }: { entrar: (destino?: string) => void
         <p className="pie-marca" aria-hidden translate="no">
           {MARCA}
         </p>
-        <p className="pie-linea">© 2026 {MARCA}. Todos los derechos reservados.</p>
+        <p className="pie-linea">© 2026 {MARCA}. Hecho para Formulación y Evaluación de Proyectos.</p>
       </footer>
     </div>
   )
